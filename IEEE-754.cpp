@@ -79,7 +79,7 @@ int main() {
 	// Разбиение на вещественную и целую часть
 	bool isInt = 1;
 	for (unsigned long long i = 0, points = 0; num[i] != '\0' && points<2; i++) {
-		if (num[i] != '.')construct += num[i];
+		if (num[i] != '.' || num[i] !=',')construct += num[i];
 		else {
 			points++;
 			isInt = 0;
