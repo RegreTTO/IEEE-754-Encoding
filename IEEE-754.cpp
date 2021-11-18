@@ -134,5 +134,5 @@ int main() {
 	for (unsigned long long i = itc_len(mantiss); i < 23; i++)mantiss +='0';
 
 	char IEEE_754_encoded = char(int(negate) + '0');// + binary_excp + mantiss;
-	cout << IEEE_754_encoded<<' '<< binary_excp<<' '<<mantiss;
+	cout << IEEE_754_encoded<< binary_excp<<mantiss;
 }
