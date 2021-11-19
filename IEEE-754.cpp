@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include<string>
 
 using namespace std;
@@ -79,7 +79,7 @@ int main() {
 	// Разбиение на вещественную и целую часть
 	bool isInt = 1;
 	for (unsigned long long i = 0, points = 0; num[i] != '\0' && points<2; i++) {
-		if (num[i] != '.' || num[i] !=',')construct += num[i];
+		if (num[i] != '.' && num[i] !=',')construct += num[i];
 		else {
 			points++;
 			isInt = 0;
@@ -134,5 +134,5 @@ int main() {
 	for (unsigned long long i = itc_len(mantiss); i < 23; i++)mantiss +='0';
 
 	char IEEE_754_encoded = char(int(negate) + '0');// + binary_excp + mantiss;
-	cout << IEEE_754_encoded<< binary_excp<<mantiss;
+	cout << IEEE_754_encoded<<binary_excp<<mantiss;
 }
