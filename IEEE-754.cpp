@@ -3,6 +3,10 @@
 
 using namespace std;
 
+bool isInfinity(string num) {
+	return num == "inf" || num == "-inf" || num == "infinity" || num == "-infinity";
+}
+
 bool itc_isDigit(unsigned char c) {
 	return c >= '0' && c <= '9';
 }
@@ -53,10 +57,10 @@ string convertToReversedBin(long long real, int chars) {
 	long long delimetr = 1;
 	for (long long i = 0; i < chars; i++, delimetr *= 10);
 	string bin = "";
-	while (real > 0 && len<32) {
+	while (real > 0 && len < 32) {
 		real = real * 2;
 		bin = bin + char(real / delimetr + '0');
-		
+
 		real %= delimetr;
 		len++;
 	}
@@ -70,7 +74,10 @@ int main() {
 	string num; cin >> num;
 	unsigned long long dec = 0, real = 0;
 	string construct = "";
-	bool negate = false;
+	for (unsigned long long i = 0; num[i] != '\0'; i++) 		{
+		if ('A' <= num[i] && num[i] <= 'Z')num[i] += 32;
+	}
+	bool negate = false, infinity = isInfinity(num);
 	int log10real = 0;
 	if (num[0] == '-') {
 		negate = true;
@@ -78,8 +85,8 @@ int main() {
 	}
 	// Разбиение на вещественную и целую часть
 	bool isInt = 1;
-	for (unsigned long long i = 0, points = 0; num[i] != '\0' && points<2; i++) {
-		if (num[i] != '.' && num[i] !=',')construct += num[i];
+	for (unsigned long long i = 0, points = 0; num[i] != '\0' && points < 2; i++) {
+		if (num[i] != '.' && num[i] != ',')construct += num[i];
 		else {
 			points++;
 			isInt = 0;
@@ -97,25 +104,25 @@ int main() {
 		int n = itc_len(construct);
 		log10real = n;
 		string new_constr = "";
-		for (int i = n - 1;  i >= 0  ; i--){
-			if(construct[i] != '0')
+		for (int i = n - 1; i >= 0; i--) {
+			if (construct[i] != '0')
 				new_constr = construct[i] + new_constr;
 		}
 		real = itc_atoi(new_constr);
 	}
 	else dec = itc_atoi(construct);
-	if (real >= 1e8-1);
+	if (real >= 1e8 - 1);
 	string dec_bin = convertToBin(dec);
 	string real_bin = convertToReversedBin(real, log10real);
 
 	long long exp = 0;
 	string mantiss = "";
 	//считаем экспоненту
-	
+
 	if (dec_bin == "0") {
 		for (unsigned long long i = 0; real_bin[i] != '\0' && real_bin[i] == '0'; i++, exp--);
 		for (unsigned long long i = (exp - 1) * -1, j = 0; real_bin[i] != '\0' && j < 23; j++) {
-			mantiss += real_bin[i+j];
+			mantiss += real_bin[i + j];
 		}
 		exp -= 1;
 
@@ -123,24 +130,24 @@ int main() {
 	else {
 		string binnum = dec_bin + real_bin;
 		exp = itc_len(dec_bin);
-		for (unsigned long long i = 1; binnum[i] != '\0' && i<=23 ; i++)mantiss += binnum[i];
+		for (unsigned long long i = 1; binnum[i] != '\0' && i <= 23; i++)mantiss += binnum[i];
 		exp -= 1;
 
 	}
-    
-    if (num == "inf" || num == "0inf" || num == "infinity" || num == "0infinity" ){
-        exp = 128;
-        mantiss = "";
-    }
 
-    if(real_bin == "0" && dec_bin == "0"){
-        exp = -127;
-        mantiss = "";
-    }
+	if (infinity) {
+		exp = 128;
+		mantiss = "";
+	}
+
+	if (real_bin == "0" && dec_bin == "0") {
+		exp = -127;
+		mantiss = "";
+	}
 	string binary_excp = convertToBin(exp + 127);
 	for (unsigned long long i = itc_len(binary_excp); i < 8; i++)binary_excp = '0' + binary_excp;
-	for (unsigned long long i = itc_len(mantiss); i < 23; i++)mantiss +='0';
+	for (unsigned long long i = itc_len(mantiss); i < 23; i++)mantiss += '0';
 
 	char IEEE_754_encoded = char(int(negate) + '0');// + binary_excp + mantiss;
-	cout << IEEE_754_encoded<<binary_excp<<mantiss;
+	cout << IEEE_754_encoded << ' ' << binary_excp << ' ' << mantiss;
 }
