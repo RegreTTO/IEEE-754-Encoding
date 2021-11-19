@@ -111,19 +111,27 @@ int main() {
 	long long exp = 0;
 	string mantiss = "";
 	//считаем экспоненту
+	
 	if (dec_bin == "0") {
 		for (unsigned long long i = 0; real_bin[i] != '\0' && real_bin[i] == '0'; i++, exp--);
 		for (unsigned long long i = (exp - 1) * -1, j = 0; real_bin[i] != '\0' && j < 23; j++) {
 			mantiss += real_bin[i+j];
 		}
+		exp -= 1;
+
 	}
 	else {
 		string binnum = dec_bin + real_bin;
 		exp = itc_len(dec_bin);
 		for (unsigned long long i = 1; binnum[i] != '\0' && i<=23 ; i++)mantiss += binnum[i];
-	}
-	exp -= 1;
+		exp -= 1;
 
+	}
+    
+    if(real_bin == "0" && dec_bin == "0"){
+        exp = -127;
+        mantiss = "";
+    }
 	//проверка на переполнение
 	if (exp > 127 || exp<-127) {
 		cout << "NaN";
