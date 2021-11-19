@@ -128,15 +128,15 @@ int main() {
 
 	}
     
+    if (num == "inf" || num == "0inf" || num == "infinity" || num == "0infinity" ){
+        exp = 128;
+        mantiss = "";
+    }
+
     if(real_bin == "0" && dec_bin == "0"){
         exp = -127;
         mantiss = "";
     }
-	//проверка на переполнение
-	if (exp > 127 || exp<-127) {
-		cout << "NaN";
-		return 0;
-	}
 	string binary_excp = convertToBin(exp + 127);
 	for (unsigned long long i = itc_len(binary_excp); i < 8; i++)binary_excp = '0' + binary_excp;
 	for (unsigned long long i = itc_len(mantiss); i < 23; i++)mantiss +='0';
